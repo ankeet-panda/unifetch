@@ -1,0 +1,32 @@
+# Local secrets: .env.local holds HF_KEY (Higgsfield, key-id:key-secret). Never commit.
+.env
+.env.local
+.env.*.local
+
+# added when staging for GitHub
+# dependencies and build output
+node_modules/
+dist/
+dist-showcase/
+.vite-cache/
+.vite/
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+# tool caches
+.playwright-mcp/
+.cache/
+.firecrawl/
+# secrets and local env
+.env
+.env.*
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
+# staging record (local only)
+STAGING.md

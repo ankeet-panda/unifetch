@@ -1,0 +1,49 @@
+[project]
+name = "unifetch"
+version = "0.1.0"
+description = "One fetch() over httpx, Scrapling, Crawl4AI, CloakBrowser and Agent-Reach, with automatic tier escalation."
+readme = "README.md"
+requires-python = ">=3.10,<3.14"
+license = { text = "MIT" }
+
+dependencies = [
+    # Tier 0 - plain HTTP. Also a transitive dep of crawl4ai and cloakbrowser.
+    "httpx[http2]>=0.27.2",
+    # Tier 1 - adaptive parsing + stealth fetchers (curl_cffi / playwright / patchright).
+    "scrapling[fetchers]>=0.4.15",
+    # Tier 2 - JS rendering + LLM-ready markdown extraction.
+    "crawl4ai>=0.9.3",
+]
+
+[project.optional-dependencies]
+# Tier 3. MIT wrapper only; the stealth Chromium binary is proprietary and is
+# never downloaded unless you set CLOAKBROWSER_LICENSE_KEY and actually call it.
+cloak = ["cloakbrowser>=0.5.10"]
+# main.py example: Seedance 2.5 text-to-video via the official Higgsfield SDK.
+higgsfield = ["higgsfield-client>=0.2.0", "python-dotenv>=1.0"]
+
+[project.scripts]
+unifetch = "unifetch.cli:main"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM", "RUF"]
+ignore = [
+    # Backends deliberately catch everything: a failing tier must be recorded as
+    # an attempt and escalated past, never allowed to kill the whole ladder.
+    "BLE001",
+    "RUF022",  # __all__ is grouped by role, not alphabetised
+]
+
+[tool.ruff.lint.per-file-ignores]
+"unifetch/backends/*.py" = ["PLC0415"]  # lazy imports are the point
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["unifetch"]
