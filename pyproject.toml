@@ -19,8 +19,6 @@ dependencies = [
 # Tier 3. MIT wrapper only; the stealth Chromium binary is proprietary and is
 # never downloaded unless you set CLOAKBROWSER_LICENSE_KEY and actually call it.
 cloak = ["cloakbrowser>=0.5.10"]
-# main.py example: Seedance 2.5 text-to-video via the official Higgsfield SDK.
-higgsfield = ["higgsfield-client>=0.2.0", "python-dotenv>=1.0"]
 
 [project.scripts]
 unifetch = "unifetch.cli:main"
